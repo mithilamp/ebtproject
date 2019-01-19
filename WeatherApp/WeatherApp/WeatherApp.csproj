@@ -24,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\AddCityPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CityEntryListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ForcastPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

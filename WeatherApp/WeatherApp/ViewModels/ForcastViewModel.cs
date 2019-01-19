@@ -19,6 +19,11 @@ namespace WeatherApp.ViewModels
         private Command searchCmd;
 
         /// <summary>
+        /// The item add command
+        /// </summary>
+        private Command itemAddCmd;
+
+        /// <summary>
         /// The rest service
         /// </summary>
         public IRestServices restService;
@@ -74,7 +79,22 @@ namespace WeatherApp.ViewModels
         /// <summary>
         /// Gets the search command.
         /// </summary>
-        public Command SearchCmd { get => this.searchCmd ?? (this.searchCmd = new Command(async () => await this.SearchActionAsync())); }
+        //public Command SearchCmd { get => this.searchCmd ?? (this.searchCmd = new Command(async () => await this.SearchActionAsync())); }
+
+        /// <summary>
+        /// Gets the item add command.
+        /// </summary>
+        public Command ItemAddCmd { get => this.itemAddCmd ?? (this.itemAddCmd = new Command(async () => await this.AddItemActionAsync())); }
+
+        /// <summary>
+        /// Adds the item action asynchronous.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private Task AddItemActionAsync()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Starts the timer.
@@ -87,14 +107,14 @@ namespace WeatherApp.ViewModels
         /// <summary>
         /// Searches the action asynchronous.
         /// </summary>
-        private async Task SearchActionAsync()
-        {
-            if (!string.IsNullOrWhiteSpace(CityEntry))
-            {
-                restService.ChangeCity(CityEntry);
-                await FetchDataAsync();
-            }
-        }
+        //private async Task SearchActionAsync()
+        //{
+        //    if (!string.IsNullOrWhiteSpace(CityEntry))
+        //    {
+        //        restService.ChangeCity(CityEntry);
+        //        await FetchDataAsync();
+        //    }
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ForcastViewModel"/> class.
