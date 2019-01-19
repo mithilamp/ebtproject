@@ -16,7 +16,7 @@ namespace WeatherApp.Services
         /// <summary>
         /// Gets or sets the name of the city.
         /// </summary>
-        private string CityName {get;set;}
+        private NamedCity CityName {get;set;}
 
         /// <summary>
         /// The client
@@ -35,16 +35,17 @@ namespace WeatherApp.Services
         /// Changes the city.
         /// </summary>
         /// <param name="city">The city.</param>
-        public void ChangeCity(string city)
+        public async Task<WeatherData> GetWeatherData(NamedCity city)
         {
             this.CityName = city;
+            return await Generate();
         }
 
         /// <summary>
         /// Initializes this instance.
         /// </summary>
         /// <returns></returns>
-        public async Task<WeatherData> GetWeatherData()
+        public async Task<WeatherData> Generate()
         {
             WeatherData weatherData = null;
             try
@@ -72,7 +73,9 @@ namespace WeatherApp.Services
         string GenerateRequestUri(string endpoint)
         {
             string requestUri = endpoint;
-            requestUri += $"?q={this.CityName}";
+            //requestUri += $"?q={this.CityName}";
+            requestUri += $"?lat={this.CityName.Latitude}";
+            requestUri += $"&lon={this.CityName.Longitude}";
             requestUri += "&units=metric";
             requestUri += $"&APPID={Constants.OpenWeatherMapAPIKey}";
             return requestUri;

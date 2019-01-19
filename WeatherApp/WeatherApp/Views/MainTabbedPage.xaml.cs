@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Models;
+using WeatherApp.Services;
 using WeatherApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,8 +21,8 @@ namespace WeatherApp.Views
 
             this.ItemsSource = new CityWeatherViewModel[]
             {
-               new CityWeatherViewModel(new NamedCity("Colombo",79.861243,6.9270786)), 
-               new CityWeatherViewModel(new NamedCity("Cologne",6.960278,50.937531))
+               new CityWeatherViewModel(new NamedCity("Colombo",79.861243,6.9270786), new RestServices()), 
+               new CityWeatherViewModel(new NamedCity("Cologne",6.960278,50.937531), new RestServices())
             };
 
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });

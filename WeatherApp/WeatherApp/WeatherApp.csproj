@@ -16,13 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\CityWeatherPage.xaml.cs">
+      <DependentUpon>CityWeatherPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Views\AddCityPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CityEntryListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CityWeather.xaml">
+    <EmbeddedResource Update="Views\CityWeatherPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ForcastPage.xaml">

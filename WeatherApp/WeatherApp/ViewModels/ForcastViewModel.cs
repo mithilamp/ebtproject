@@ -124,7 +124,7 @@ namespace WeatherApp.ViewModels
         {
             restService = services;
             WeatherData = new WeatherData();
-            this.restService.ChangeCity("Koeln"); //Default search
+            //this.restService.ChangeCity("Koeln"); //Default search
             Init = FetchDataAsync();
         }
 
@@ -135,7 +135,7 @@ namespace WeatherApp.ViewModels
         {
             try
             {
-                this.WeatherData = await restService.GetWeatherData();
+                //this.WeatherData = await restService.GetWeatherData();
                 var timeOfDay = WeatherData.List[0].DtTxt.TimeOfDay; //last weather update
                 this.ForcastList = this.WeatherData.List.Where(x => x.DtTxt.TimeOfDay == timeOfDay).ToList();
             }
