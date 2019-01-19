@@ -27,5 +27,10 @@ namespace WeatherApp.Views
 
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });
         }
+
+        async void ClickedAsync(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CityEntryListPage(new CityEntryListViewModel()));
+        }
     }
 }

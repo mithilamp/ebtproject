@@ -11,8 +11,6 @@ namespace WeatherApp.ViewModels
     public class CityWeatherViewModel :BaseViewModel
     {
         public NamedCity CityName { get; set; }
-        public double lat { get; set; }
-        public double lon { get; set; }
 
         public WeatherOnTopViewModel displayWeather;
 
@@ -26,6 +24,9 @@ namespace WeatherApp.ViewModels
         /// </summary>
         public Task Init { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the display weather.
+        /// </summary>
         public WeatherOnTopViewModel DisplayWeather
         {
             get { return displayWeather; }
@@ -48,20 +49,20 @@ namespace WeatherApp.ViewModels
         {
             CityName = namedCity;
             this.DisplayWeather = new WeatherOnTopViewModel();
-            lat = namedCity.Latitude;
-            lon = namedCity.Longitude;
             restService = services;
             Init = FetchDataAsync();
         }
 
+        /// <summary>
+        /// Fetches the data asynchronous.
+        /// </summary>
+        /// <returns></returns>
         private async Task FetchDataAsync()
         {
             try
             {
                 var weatherData = await restService.GetWeatherData(this.CityName);
                 this.DisplayWeather.GenerateNewData(weatherData);
-                //var timeOfDay = WeatherData.List[0].DtTxt.TimeOfDay; //last weather update
-                //this.ForcastList = this.WeatherData.List.Where(x => x.DtTxt.TimeOfDay == timeOfDay).ToList();
             }
             catch (Exception ex)
             {
@@ -69,6 +70,9 @@ namespace WeatherApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Subscribes to updates.
+        /// </summary>
         internal void SubscribeToUpdates()
         {
             Device.StartTimer(new TimeSpan(0, 0, 0, 3, 0), UpdateData); // Default: Request weather update every 3 hrs.

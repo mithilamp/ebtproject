@@ -1,12 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WeatherApp.Views.CityEntryListPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="WeatherApp.Views.CityEntryListPage"
+             x:Name="CityEntryPage">
+    <StackLayout>
+        <ListView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ItemsSource="{Binding NamedCityList}" SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout x:Name="Item" Orientation="Horizontal">
+                            <!-- Element Label -->
+                            <Label Text="{Binding Name}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                            <Button Text="Remove" Command="{Binding Source={x:Reference CityEntryPage}, Path=BindingContext.RemoveCmd}" CommandParameter="{Binding Source={x:Reference Item},Path=BindingContext}"/>
+                            <!-- Assessment Menu Icon -->
+                            <!--<Label Text="Clickable Label" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OnClickableLabel}" CommandParameter="{Binding .}" />
+                                </Label.GestureRecognizers>
+                            </Label>-->
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <Button Text="Add" Clicked="ClickedAsync"/>
+    </StackLayout>
 </ContentPage>
