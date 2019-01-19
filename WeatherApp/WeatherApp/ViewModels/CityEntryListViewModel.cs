@@ -31,9 +31,16 @@ namespace WeatherApp.ViewModels
         /// <param name="namedCity">The named city.</param>
         private void RemoveItemAction(NamedCity namedCity)
         {
-            this.NamedCityList.Remove(namedCity);
+            if (this.NamedCityList.Count > 1)
+            {
+                this.NamedCityList.Remove(namedCity);
+                MessagingCenter.Send<CityEntryListViewModel, NamedCity>(this, "Hi", namedCity);
+            }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CityEntryListViewModel"/> class.
+        /// </summary>
         public CityEntryListViewModel()
         {
             NamedCityList = new ObservableCollection<NamedCity>(GetAvailableCityEntries());
@@ -55,8 +62,8 @@ namespace WeatherApp.ViewModels
                     var tabbedPage = (TabbedPage)navigationPage.CurrentPage;
                     foreach (var page in tabbedPage.Children)
                     {
-                        var ff = page.BindingContext as CityWeatherViewModel;
-                        items.Add(ff.CityName);
+                        var viewModel = page.BindingContext as CityWeatherViewModel;
+                        items.Add(viewModel.namedCity);
                     }
                 }
             }

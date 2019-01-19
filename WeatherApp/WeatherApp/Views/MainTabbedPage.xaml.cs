@@ -26,8 +26,38 @@ namespace WeatherApp.Views
             };
 
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });
+
+            MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "Hi", (sender, obj) =>
+            {
+                //DisplayAlert("Message Received", "arg=" + obj.Name, "OK");
+                RemovePage(obj);
+                //this.Children.Add(new NamedColorPage());
+            });
         }
 
+        /// <summary>
+        /// Removes the page.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        private void RemovePage(NamedCity obj)
+        {
+            var items = new List<CityWeatherViewModel>();
+            foreach (var page in this.Children)
+            {
+                var viewModel = page.BindingContext as CityWeatherViewModel;
+                if (!viewModel.namedCity.Equals(obj))
+                {
+                    items.Add(viewModel);
+                }
+            }
+            this.ItemsSource = items;
+        }
+
+        /// <summary>
+        /// Clickeds the asynchronous.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         async void ClickedAsync(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new CityEntryListPage(new CityEntryListViewModel()));
