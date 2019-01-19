@@ -13,8 +13,9 @@ namespace WeatherApp
         public App()
         {
             InitializeComponent();
-            var viewModel = new ForcastViewModel(new RestServices());
-            MainPage = new NavigationPage( new ForcastPage(viewModel));
+            //var viewModel = new ForcastViewModel(new RestServices());
+            //MainPage = new NavigationPage( new ForcastPage(viewModel));
+            MainPage = new NavigationPage(new MainTabbedPage());
         }
 
         protected override void OnStart()
