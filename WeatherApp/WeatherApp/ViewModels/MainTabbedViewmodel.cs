@@ -17,11 +17,11 @@ namespace WeatherApp.ViewModels
         public MainTabbedViewmodel()
         {
             this.RestService = new RestServices();
-            var list = new List<CityWeatherViewModel>
-            {
-               new CityWeatherViewModel(new NamedCity(79.861243,6.9270786,"Colombo"), RestService),
-               new CityWeatherViewModel(new NamedCity(6.960278,50.937531,"Cologne"), RestService)
-            };
+            //var list = new List<CityWeatherViewModel>
+            //{
+            //   new CityWeatherViewModel(new NamedCity(79.861243,6.9270786,"Colombo"), RestService),
+            //   new CityWeatherViewModel(new NamedCity(6.960278,50.937531,"Cologne"), RestService)
+            //};
             ViewModelsList = new ObservableCollection<CityWeatherViewModel>();
 
             MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", (sender, obj) =>
@@ -33,6 +33,29 @@ namespace WeatherApp.ViewModels
             {
                 AddPage(obj);
             });
+        }
+
+        /// <summary>
+        /// Updates the device location.
+        /// </summary>
+        /// <param name="namedCity">The named city.</param>
+        internal void UpdateDeviceLocation(NamedCity namedCity)
+        {
+            if(ViewModelsList.Count != 0)
+            {
+                foreach (CityWeatherViewModel item in ViewModelsList)
+                {
+                    if (item.NamedCity.Name.Equals(namedCity.Name))
+                    {
+                        item.NamedCity.Latitude = namedCity.Latitude;
+                        item.NamedCity.Longitude = namedCity.Longitude;
+                    }
+                }
+            }
+            else
+            {
+                ViewModelsList.Add(new CityWeatherViewModel(namedCity, RestService));
+            }
         }
 
         /// <summary>

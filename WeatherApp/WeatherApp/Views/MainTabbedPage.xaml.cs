@@ -29,16 +29,16 @@ namespace WeatherApp.Views
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });
         }
 
-        private async Task<NamedCity> GetCurrentLocation()
+        private async Task GetCurrentLocation()
         {
-            NamedCity namedCity = null;
+            var viewModel = this.BindingContext as MainTabbedViewmodel;
             try
             {
                 //var request = new GeolocationRequest(GeolocationAccuracy.Medium);
                 //var location = await Geolocation.GetLocationAsync(request);
                 var location = await Geolocation.GetLastKnownLocationAsync();
+                viewModel.UpdateDeviceLocation(new NamedCity(location.Longitude, location.Latitude, "CurrentLocation"));
 
-                namedCity = new NamedCity(location.Longitude, location.Latitude);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -52,7 +52,6 @@ namespace WeatherApp.Views
             {
                 await DisplayAlert("Faild", ex.Message, "OK");
             }
-            return namedCity;
         }
 
         /// <summary>
@@ -65,16 +64,13 @@ namespace WeatherApp.Views
             await Navigation.PushAsync(new CityEntryListPage(new CityEntryListViewModel()));
         }
 
+        /// <summary>
+        /// When overridden, allows application developers to customize behavior immediately prior to the <see cref="T:Xamarin.Forms.Page" /> becoming visible.
+        /// </summary>
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 50;
-
-            var position = await locator.GetPositionAsync();
-            //temp = new NamedCity(position.Longitude,position.Latitude);
-            //var t = GetCurrentLocation().Result;
-            //Task.Run(async ()=> await GetCurrentLocation());
+            await GetCurrentLocation();
         }
     }
 }
