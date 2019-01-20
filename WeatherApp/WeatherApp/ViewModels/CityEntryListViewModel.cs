@@ -45,6 +45,11 @@ namespace WeatherApp.ViewModels
         public CityEntryListViewModel()
         {
             NamedCityList = new ObservableCollection<NamedCity>(GetAvailableCityEntries());
+
+            MessagingCenter.Subscribe<AddCityPage, NamedCity>(this, "add", (sender, obj) =>
+            {
+                NamedCityList.Add(obj);
+            });
         }
 
         /// <summary>
@@ -64,7 +69,7 @@ namespace WeatherApp.ViewModels
                     foreach (var page in tabbedPage.Children)
                     {
                         var viewModel = page.BindingContext as CityWeatherViewModel;
-                        items.Add(viewModel.namedCity);
+                        items.Add(viewModel.NamedCity);
                     }
                 }
             }

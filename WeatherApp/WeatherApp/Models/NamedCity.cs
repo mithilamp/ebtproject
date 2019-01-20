@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace WeatherApp.Models
 {
     public class NamedCity
     {
-        public NamedCity(string name, double lon, double lat)
+        public NamedCity(double lon, double lat, string name = null)
         {
             this.Name = name;
             this.Longitude = lon;
@@ -16,5 +17,6 @@ namespace WeatherApp.Models
         public string Name { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+
     }
 }

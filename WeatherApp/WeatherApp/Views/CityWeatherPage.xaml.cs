@@ -15,7 +15,7 @@ namespace WeatherApp.Views
 		public CityWeatherPage()
 		{
 			InitializeComponent ();
-            this.SetBinding(ContentPage.TitleProperty, "DisplayWeather.CityName");
+            this.SetBinding(ContentPage.TitleProperty, "NamedCity.Name");
         }
 
         /// <summary>

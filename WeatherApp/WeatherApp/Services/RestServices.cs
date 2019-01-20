@@ -73,7 +73,7 @@ namespace WeatherApp.Services
         string GenerateRequestUri(string endpoint)
         {
             string requestUri = endpoint;
-            //requestUri += $"?q={this.CityName}";
+            //requestUri += $"?q={this.CityName.Name}";
             requestUri += $"?lat={this.CityName.Latitude}";
             requestUri += $"&lon={this.CityName.Longitude}";
             requestUri += "&units=metric";

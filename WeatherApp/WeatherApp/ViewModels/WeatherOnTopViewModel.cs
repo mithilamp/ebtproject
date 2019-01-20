@@ -119,7 +119,7 @@ namespace WeatherApp.ViewModels
                 if (this.temp != value)
                 {
                     this.temp = value;
-                    OnPropertyChanged("Temp");
+                    OnPropertyChanged("Temparature");
                 }
             }
         }

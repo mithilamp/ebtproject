@@ -10,7 +10,7 @@ namespace WeatherApp.ViewModels
 {
     public class CityWeatherViewModel :BaseViewModel
     {
-        public NamedCity namedCity { get; set; }
+        public NamedCity NamedCity { get; set; }
 
         public WeatherOnTopViewModel displayWeather;
 
@@ -47,7 +47,7 @@ namespace WeatherApp.ViewModels
         /// <param name="namedCity">The named city.</param>
         public CityWeatherViewModel(NamedCity namedCity, IRestServices services)
         {
-            this.namedCity = namedCity;
+            this.NamedCity = namedCity;
             this.DisplayWeather = new WeatherOnTopViewModel();
             restService = services;
             Init = FetchDataAsync();
@@ -61,7 +61,7 @@ namespace WeatherApp.ViewModels
         {
             try
             {
-                var weatherData = await restService.GetWeatherData(this.namedCity);
+                var weatherData = await restService.GetWeatherData(this.NamedCity);
                 this.DisplayWeather.GenerateNewData(weatherData);
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace WeatherApp.ViewModels
         /// </summary>
         internal void SubscribeToUpdates()
         {
-            Device.StartTimer(new TimeSpan(0, 0, 0, 3, 0), UpdateData); // Default: Request weather update every 3 hrs.
+            Device.StartTimer(new TimeSpan(0, 3, 0, 0, 0), UpdateData); // Default: Request weather update every 3 hrs.
         }
 
         /// <summary>
