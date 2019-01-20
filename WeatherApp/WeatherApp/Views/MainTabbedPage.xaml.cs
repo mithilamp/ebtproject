@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.Geolocator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,12 +17,14 @@ namespace WeatherApp.Views
     public partial class MainTabbedPage : TabbedPage
     {
         RestServices RestService { get; set; }
+        NamedCity CurrentCity { get; set; }
         public MainTabbedPage ()
         {
             InitializeComponent();
             this.Title = "Weather App";
             this.RestService = new RestServices();
 
+            //Task.Run(async () => temp = await GetCurrentLocation());
             //this.ItemsSource = new CityWeatherViewModel(GetCurrentLocation(),RestService);
             this.ItemsSource = new CityWeatherViewModel[]
             {
@@ -47,22 +50,23 @@ namespace WeatherApp.Views
             NamedCity namedCity = null;
             try
             {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-                var location = await Geolocation.GetLocationAsync(request);
+                //var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+                //var location = await Geolocation.GetLocationAsync(request);
+                var location = await Geolocation.GetLastKnownLocationAsync();
 
                 namedCity = new NamedCity(location.Longitude, location.Latitude);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
-                // Handle not supported on device exception
+                await DisplayAlert("Faild", fnsEx.Message, "OK");
             }
             catch (PermissionException pEx)
             {
-                // Handle permission exception
+                await DisplayAlert("Faild", pEx.Message, "OK");
             }
             catch (Exception ex)
             {
-                // Unable to get location
+                await DisplayAlert("Faild", ex.Message, "OK");
             }
             return namedCity;
         }
@@ -109,6 +113,20 @@ namespace WeatherApp.Views
         async void ClickedAsync(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new CityEntryListPage(new CityEntryListViewModel()));
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            //NamedCity temp;
+            //temp = await GetCurrentLocation();
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 50;
+
+            var position = await locator.GetPositionAsync();
+            //temp = new NamedCity(position.Longitude,position.Latitude);
+            //var t = GetCurrentLocation().Result;
+            //Task.Run(async ()=> await GetCurrentLocation());
         }
     }
 }
