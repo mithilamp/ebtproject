@@ -18,31 +18,15 @@ namespace WeatherApp.Views
     {
         RestServices RestService { get; set; }
         NamedCity CurrentCity { get; set; }
-        public MainTabbedPage ()
+        public MainTabbedPage (MainTabbedViewmodel viewmodel)
         {
             InitializeComponent();
+            this.BindingContext = viewmodel;
             this.Title = "Weather App";
-            this.RestService = new RestServices();
 
-            //Task.Run(async () => temp = await GetCurrentLocation());
-            //this.ItemsSource = new CityWeatherViewModel(GetCurrentLocation(),RestService);
-            this.ItemsSource = new CityWeatherViewModel[]
-            {
-               new CityWeatherViewModel(new NamedCity(79.861243,6.9270786,"Colombo"), RestService),
-               new CityWeatherViewModel(new NamedCity(6.960278,50.937531,"Cologne"), RestService)
-            };
+            this.SetBinding(TabbedPage.ItemsSourceProperty, "ViewModelsList", BindingMode.TwoWay);
 
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });
-
-            MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", (sender, obj) =>
-            {
-                RemovePage(obj);
-            });
-
-            MessagingCenter.Subscribe<AddCityPage, NamedCity>(this, "add", (sender, obj) =>
-            {
-                AddPage(obj);
-            });
         }
 
         private async Task<NamedCity> GetCurrentLocation()
@@ -72,40 +56,6 @@ namespace WeatherApp.Views
         }
 
         /// <summary>
-        /// Adds the page.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        private void AddPage(NamedCity obj)
-        {
-            var items = new List<CityWeatherViewModel>();
-            foreach (var page in this.Children)
-            {
-                var viewModel = page.BindingContext as CityWeatherViewModel;
-                items.Add(viewModel);                    
-            }
-            items.Add(new CityWeatherViewModel(obj, RestService));
-            this.ItemsSource = items;
-        }
-
-        /// <summary>
-        /// Removes the page.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        private void RemovePage(NamedCity obj)
-        {
-            var items = new List<CityWeatherViewModel>();
-            foreach (var page in this.Children)
-            {
-                var viewModel = page.BindingContext as CityWeatherViewModel;
-                if (!viewModel.NamedCity.Equals(obj))
-                {
-                    items.Add(viewModel);
-                }
-            }
-            this.ItemsSource = items;
-        }
-
-        /// <summary>
         /// Clickeds the asynchronous.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -118,8 +68,6 @@ namespace WeatherApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            //NamedCity temp;
-            //temp = await GetCurrentLocation();
             var locator = CrossGeolocator.Current;
             locator.DesiredAccuracy = 50;
 
