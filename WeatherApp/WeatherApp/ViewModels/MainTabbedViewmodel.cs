@@ -27,11 +27,6 @@ namespace WeatherApp.ViewModels
             //   new CityWeatherViewModel(new NamedCity(79.861243,6.9270786,"Colombo"), RestService),
             //   new CityWeatherViewModel(new NamedCity(6.960278,50.937531,"Cologne"), RestService)
             //};
-            var cities = citiesRepository.GetCitiesAsync().Result;
-            if (cities != null)
-            {
-                //ViewModelsList = new ObservableCollection<CityWeatherViewModel>(cities);
-            }
             ViewModelsList = new ObservableCollection<CityWeatherViewModel>(GetPersistedData());
 
             MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", async (sender, obj) =>
@@ -45,17 +40,17 @@ namespace WeatherApp.ViewModels
             });
         }
 
+        /// <summary>
+        /// Gets the persisted data.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerable<CityWeatherViewModel> GetPersistedData()
         {
             var cities = citiesRepository.GetCitiesAsync().Result;
             var items = new List<CityWeatherViewModel>();
-            if (cities != null)
+            foreach (var city in cities)
             {
-                foreach (var city in cities)
-                {
-                    items.Add(new CityWeatherViewModel(city,RestService));
-                }
-                return items;
+                items.Add(new CityWeatherViewModel(city,RestService));
             }
             return items;
         }
@@ -74,6 +69,7 @@ namespace WeatherApp.ViewModels
                     {
                         item.NamedCity.Latitude = namedCity.Latitude;
                         item.NamedCity.Longitude = namedCity.Longitude;
+                        await citiesRepository.UpdateCityAsync(item.NamedCity);
                     }
                 }
             }
