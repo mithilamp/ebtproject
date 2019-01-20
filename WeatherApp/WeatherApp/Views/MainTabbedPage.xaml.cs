@@ -27,11 +27,9 @@ namespace WeatherApp.Views
 
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });
 
-            MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "Hi", (sender, obj) =>
+            MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", (sender, obj) =>
             {
-                //DisplayAlert("Message Received", "arg=" + obj.Name, "OK");
                 RemovePage(obj);
-                //this.Children.Add(new NamedColorPage());
             });
         }
 

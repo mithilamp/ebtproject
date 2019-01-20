@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Models;
+using WeatherApp.Views;
 using Xamarin.Forms;
 
 namespace WeatherApp.ViewModels
@@ -34,7 +35,7 @@ namespace WeatherApp.ViewModels
             if (this.NamedCityList.Count > 1)
             {
                 this.NamedCityList.Remove(namedCity);
-                MessagingCenter.Send<CityEntryListViewModel, NamedCity>(this, "Hi", namedCity);
+                MessagingCenter.Send<CityEntryListViewModel, NamedCity>(this, "delete", namedCity);
             }
         }
 

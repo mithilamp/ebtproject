@@ -18,6 +18,11 @@ namespace WeatherApp.Views
 			InitializeComponent ();
 		}
 
+        /// <summary>
+        /// Clickeds the asynchronous.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         async void ClickedAsync(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new AddCityPage());
