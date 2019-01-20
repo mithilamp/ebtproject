@@ -1,5 +1,4 @@
-﻿using Plugin.Geolocator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,8 +35,12 @@ namespace WeatherApp.Views
             {
                 //var request = new GeolocationRequest(GeolocationAccuracy.Medium);
                 //var location = await Geolocation.GetLocationAsync(request);
+                var namedCity = new NamedCity();
                 var location = await Geolocation.GetLastKnownLocationAsync();
-                viewModel.UpdateDeviceLocation(new NamedCity(location.Longitude, location.Latitude, "CurrentLocation"));
+                namedCity.Name = "CurrentLocation";
+                namedCity.Longitude = location.Longitude;
+                namedCity.Latitude = location.Latitude;
+                await viewModel.UpdateDeviceLocation(namedCity);
 
             }
             catch (FeatureNotSupportedException fnsEx)

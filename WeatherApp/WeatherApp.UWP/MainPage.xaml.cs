@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WeatherApp.Services;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -21,7 +22,9 @@ namespace WeatherApp.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new WeatherApp.App());
+            var dbPath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Weather.db");
+            var citiesRepository = new CitiesRepository(dbPath);
+            LoadApplication(new WeatherApp.App(citiesRepository));
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Foundation;
 using UIKit;
+using WeatherApp.Services;
 
 namespace WeatherApp.iOS
 {
@@ -22,8 +24,12 @@ namespace WeatherApp.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            SQLitePCL.Batteries.Init();
+            var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library", "Weather.db");
+            var citiesRepository = new CitiesRepository(dbPath);
+
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(citiesRepository));
 
             return base.FinishedLaunching(app, options);
         }

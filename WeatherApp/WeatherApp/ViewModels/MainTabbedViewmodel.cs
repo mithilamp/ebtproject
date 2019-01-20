@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
+using WeatherApp.Interfaces;
 using WeatherApp.Models;
 using WeatherApp.Services;
 using WeatherApp.Views;
@@ -12,34 +14,57 @@ namespace WeatherApp.ViewModels
     public class MainTabbedViewmodel :BaseViewModel
     {
         RestServices RestService { get; set; }
+
+        private readonly ICitiesRepository citiesRepository;
         public ObservableCollection<CityWeatherViewModel> ViewModelsList { get; set; }
 
-        public MainTabbedViewmodel()
+        public MainTabbedViewmodel(ICitiesRepository citiesRepository)
         {
             this.RestService = new RestServices();
+            this.citiesRepository = citiesRepository;
             //var list = new List<CityWeatherViewModel>
             //{
             //   new CityWeatherViewModel(new NamedCity(79.861243,6.9270786,"Colombo"), RestService),
             //   new CityWeatherViewModel(new NamedCity(6.960278,50.937531,"Cologne"), RestService)
             //};
-            ViewModelsList = new ObservableCollection<CityWeatherViewModel>();
-
-            MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", (sender, obj) =>
+            var cities = citiesRepository.GetCitiesAsync().Result;
+            if (cities != null)
             {
-                RemovePage(obj);
+                //ViewModelsList = new ObservableCollection<CityWeatherViewModel>(cities);
+            }
+            ViewModelsList = new ObservableCollection<CityWeatherViewModel>(GetPersistedData());
+
+            MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", async (sender, obj) =>
+            {
+                await RemovePage(obj);
             });
 
-            MessagingCenter.Subscribe<AddCityPage, NamedCity>(this, "add", (sender, obj) =>
+            MessagingCenter.Subscribe<AddCityPage, NamedCity>(this, "add", async (sender, obj) =>
             {
-                AddPage(obj);
+                await AddPage(obj);
             });
+        }
+
+        private IEnumerable<CityWeatherViewModel> GetPersistedData()
+        {
+            var cities = citiesRepository.GetCitiesAsync().Result;
+            var items = new List<CityWeatherViewModel>();
+            if (cities != null)
+            {
+                foreach (var city in cities)
+                {
+                    items.Add(new CityWeatherViewModel(city,RestService));
+                }
+                return items;
+            }
+            return items;
         }
 
         /// <summary>
         /// Updates the device location.
         /// </summary>
         /// <param name="namedCity">The named city.</param>
-        internal void UpdateDeviceLocation(NamedCity namedCity)
+        public async Task UpdateDeviceLocation(NamedCity namedCity)
         {
             if(ViewModelsList.Count != 0)
             {
@@ -55,6 +80,7 @@ namespace WeatherApp.ViewModels
             else
             {
                 ViewModelsList.Add(new CityWeatherViewModel(namedCity, RestService));
+                await citiesRepository.AddCityAsync(namedCity);
             }
         }
 
@@ -62,16 +88,17 @@ namespace WeatherApp.ViewModels
         /// Adds the page.
         /// </summary>
         /// <param name="obj">The object.</param>
-        private void AddPage(NamedCity obj)
+        private async Task AddPage(NamedCity obj)
         {
             ViewModelsList.Add(new CityWeatherViewModel(obj, RestService));
+            await citiesRepository.AddCityAsync(obj);
         }
 
         /// <summary>
         /// Removes the page.
         /// </summary>
         /// <param name="obj">The object.</param>
-        private void RemovePage(NamedCity obj)
+        private async Task RemovePage(NamedCity obj)
         {
             var list = new List<CityWeatherViewModel>(ViewModelsList);
             foreach (CityWeatherViewModel item in list)
@@ -79,6 +106,7 @@ namespace WeatherApp.ViewModels
                 if (item.NamedCity.Equals(obj))
                 {
                     ViewModelsList.Remove(item);
+                    await citiesRepository.RemoveCityAsync(obj);
                 }
             }
         }

@@ -39,11 +39,12 @@ namespace WeatherApp
                     Debug.WriteLine("PlacesSearchBar Google Places API returned ERROR");
                     return null;
                 }
-
-                var name = (string)JObject.Parse(result)["result"]["name"];
-                var latitude = (double)JObject.Parse(result)["result"]["geometry"]["location"]["lat"];
-                var longitude = (double)JObject.Parse(result)["result"]["geometry"]["location"]["lng"];
-                return new NamedCity(longitude, latitude,name);
+                var namedCity = new NamedCity();
+                namedCity.Name = (string)JObject.Parse(result)["result"]["name"];
+                namedCity.Latitude = (double)JObject.Parse(result)["result"]["geometry"]["location"]["lat"];
+                namedCity.Longitude = (double)JObject.Parse(result)["result"]["geometry"]["location"]["lng"];
+                //var namedCity = new NamedCity();
+                return namedCity;
 
             }
             catch (Exception ex)

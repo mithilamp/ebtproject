@@ -1,4 +1,5 @@
 ﻿using System;
+using WeatherApp.Interfaces;
 using WeatherApp.Services;
 using WeatherApp.ViewModels;
 using WeatherApp.Views;
@@ -10,12 +11,11 @@ namespace WeatherApp
 {
     public partial class App : Application
     {
-        public App()
+        public App(ICitiesRepository citiesRepository)
         {
             InitializeComponent();
-            //var viewModel = new ForcastViewModel(new RestServices());
-            //MainPage = new NavigationPage( new ForcastPage(viewModel));
-            MainPage = new NavigationPage(new MainTabbedPage(new MainTabbedViewmodel()));
+
+            MainPage = new NavigationPage(new MainTabbedPage(new MainTabbedViewmodel(citiesRepository)));
         }
 
         protected override void OnStart()
