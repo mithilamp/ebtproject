@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Interfaces;
 using WeatherApp.Models;
+using WeatherApp.Services;
 using Xamarin.Forms;
 
 namespace WeatherApp.ViewModels
@@ -45,11 +46,11 @@ namespace WeatherApp.ViewModels
         /// Initializes a new instance of the <see cref="CityWeatherViewModel"/> class.
         /// </summary>
         /// <param name="namedCity">The named city.</param>
-        public CityWeatherViewModel(NamedCity namedCity, IRestServices services)
+        public CityWeatherViewModel(NamedCity namedCity)
         {
             this.NamedCity = namedCity;
             this.DisplayWeather = new WeatherOnTopViewModel();
-            restService = services;
+            restService = new RestServices();
             Init = FetchDataAsync();
         }
 

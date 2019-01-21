@@ -25,7 +25,7 @@ namespace WeatherApp.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         async void ClickedAsync(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddCityPage());
+            await Navigation.PushAsync(new AddCityPage(new AddCityViewModel()));
         }
     }
 }

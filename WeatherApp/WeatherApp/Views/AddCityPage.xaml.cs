@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeatherApp.Interfaces;
 using WeatherApp.Models;
+using WeatherApp.Services;
+using WeatherApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,15 +15,10 @@ namespace WeatherApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AddCityPage : ContentPage
 	{
-        NamedCity selectedCity { get; set; }
-        bool notSelected { get; set; }
-
-        public AddCityPage ()
+        public AddCityPage (AddCityViewModel addCityViewModel)
 		{
-            notSelected = true;
-			InitializeComponent ();
-            SearchBar.ApiKey = Constants.GoogleApiKey;
-            SearchBar.Type = PlaceType.Geocode;
+            InitializeComponent();
+            BindingContext = addCityViewModel;
             SearchBar.PlacesRetrieved += Search_Bar_PlacesRetrieved;
             SearchBar.TextChanged += Search_Bar_TextChanged;
             SearchBar.MinimumSearchText = 2;
@@ -34,14 +32,7 @@ namespace WeatherApp.Views
         /// <param name="result">The result.</param>
         void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)
         {
-            if (notSelected)
-            {
-                results_list.ItemsSource = result.AutoCompletePlaces;
-
-                if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0)
-                    results_list.IsVisible = true;
-            }
-
+             (this.BindingContext as AddCityViewModel)?.OnPlacesRetrieved.Execute(result);
         }
 
         /// <summary>
@@ -51,15 +42,7 @@ namespace WeatherApp.Views
         /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         void Search_Bar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            notSelected = true;
-            if (!string.IsNullOrEmpty(e.NewTextValue))
-            {
-                results_list.IsVisible = false;
-            }
-            else
-            {
-                results_list.IsVisible = true;
-            }
+            (this.BindingContext as AddCityViewModel)?.OnTextChanged.Execute(e.NewTextValue);
         }
 
         /// <summary>
@@ -67,17 +50,11 @@ namespace WeatherApp.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="SelectedItemChangedEventArgs"/> instance containing the event data.</param>
-        async void Results_List_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        void Results_List_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
                 return;
-
-            var prediction = (AutoCompletePrediction)e.SelectedItem;
-            SearchBar.Text = prediction.Description;
-            results_list.SelectedItem = null;
-            notSelected = false;
-
-            this.selectedCity = await Places.GetPlace(prediction.Place_ID, Constants.GoogleApiKey);
+            (this.BindingContext as AddCityViewModel)?.OnListItemSelected.Execute(e.SelectedItem);
         }
 
         /// <summary>
@@ -87,9 +64,10 @@ namespace WeatherApp.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         async void ClickedAsync(object sender, EventArgs e)
         {
-            if (this.selectedCity != null)
+            var viewModel = this.BindingContext as AddCityViewModel;
+            if (viewModel.SelectedCity != null)
             {
-                MessagingCenter.Send<AddCityPage, NamedCity>(this, "add", selectedCity);
+                MessagingCenter.Send<AddCityPage, NamedCity>(this, "add", viewModel.SelectedCity);
                 await Navigation.PopAsync();
             }
         }

@@ -5,10 +5,13 @@
              x:Class="WeatherApp.Views.AddCityPage">
 
         <StackLayout>
-            <controls:ExtendedPlaceSearchBar x:Name="SearchBar"/>
+            <controls:ExtendedPlaceSearchBar x:Name="SearchBar" Text="{Binding SearchText}"/>
         <AbsoluteLayout>
-            <ListView x:Name="results_list" IsVisible="false"
-			        AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="SizeProportional" >
+            <ListView x:Name="results_list" 
+                      AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                      AbsoluteLayout.LayoutFlags="SizeProportional" 
+                      IsVisible="{Binding IsListVisible}"
+                      ItemsSource="{Binding AutoCompletePredictions}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell Text="{Binding Description}" />

@@ -13,14 +13,11 @@ namespace WeatherApp.ViewModels
 {
     public class MainCarouselViewmodel :BaseViewModel
     {
-        RestServices RestService { get; set; }
-
         private readonly ICitiesRepository citiesRepository;
         public ObservableCollection<CityWeatherViewModel> ViewModelsList { get; set; }
 
         public MainCarouselViewmodel(ICitiesRepository citiesRepository)
         {
-            this.RestService = new RestServices();
             this.citiesRepository = citiesRepository;
             //var list = new List<CityWeatherViewModel>
             //{
@@ -50,7 +47,7 @@ namespace WeatherApp.ViewModels
             var items = new List<CityWeatherViewModel>();
             foreach (var city in cities)
             {
-                items.Add(new CityWeatherViewModel(city,RestService));
+                items.Add(new CityWeatherViewModel(city));
             }
             return items;
         }
@@ -75,7 +72,7 @@ namespace WeatherApp.ViewModels
             }
             else
             {
-                ViewModelsList.Add(new CityWeatherViewModel(namedCity, RestService));
+                ViewModelsList.Add(new CityWeatherViewModel(namedCity));
                 await citiesRepository.AddCityAsync(namedCity);
             }
         }
@@ -83,11 +80,11 @@ namespace WeatherApp.ViewModels
         /// <summary>
         /// Adds the page.
         /// </summary>
-        /// <param name="obj">The object.</param>
-        private async Task AddPage(NamedCity obj)
+        /// <param name="city">The object.</param>
+        private async Task AddPage(NamedCity city)
         {
-            ViewModelsList.Add(new CityWeatherViewModel(obj, RestService));
-            await citiesRepository.AddCityAsync(obj);
+            ViewModelsList.Add(new CityWeatherViewModel(city));
+            await citiesRepository.AddCityAsync(city);
         }
 
         /// <summary>
