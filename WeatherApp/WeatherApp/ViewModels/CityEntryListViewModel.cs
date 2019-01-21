@@ -63,9 +63,9 @@ namespace WeatherApp.ViewModels
             if (mainPage is NavigationPage)
             {
                 var navigationPage = (NavigationPage)mainPage;
-                if (navigationPage.CurrentPage is TabbedPage)
+                if (navigationPage.CurrentPage is CarouselPage)
                 {
-                    var tabbedPage = (TabbedPage)navigationPage.CurrentPage;
+                    var tabbedPage = (CarouselPage)navigationPage.CurrentPage;
                     foreach (var page in tabbedPage.Children)
                     {
                         var viewModel = page.BindingContext as CityWeatherViewModel;

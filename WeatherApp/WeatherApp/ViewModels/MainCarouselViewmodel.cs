@@ -11,14 +11,14 @@ using Xamarin.Forms;
 
 namespace WeatherApp.ViewModels
 {
-    public class MainTabbedViewmodel :BaseViewModel
+    public class MainCarouselViewmodel :BaseViewModel
     {
         RestServices RestService { get; set; }
 
         private readonly ICitiesRepository citiesRepository;
         public ObservableCollection<CityWeatherViewModel> ViewModelsList { get; set; }
 
-        public MainTabbedViewmodel(ICitiesRepository citiesRepository)
+        public MainCarouselViewmodel(ICitiesRepository citiesRepository)
         {
             this.RestService = new RestServices();
             this.citiesRepository = citiesRepository;

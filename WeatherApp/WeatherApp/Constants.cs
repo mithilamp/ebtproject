@@ -8,5 +8,7 @@ namespace WeatherApp
     {
         public static string OpenWeatherMapEndpoint = "https://api.openweathermap.org/data/2.5/forecast";
         public static string OpenWeatherMapAPIKey = "01b14eddded68c3d739c012290769c48";
+
+        public static string GoogleApiKey = "AIzaSyCfedRBIYQWmXq2jSB_QDCvGGM62fEoTZE";
     }
 }

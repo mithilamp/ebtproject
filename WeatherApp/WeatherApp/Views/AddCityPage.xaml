@@ -6,10 +6,8 @@
 
         <StackLayout>
             <controls:ExtendedPlaceSearchBar x:Name="SearchBar"/>
-            <AbsoluteLayout>
-                <ActivityIndicator x:Name="spinner" IsRunning="false"
-			        AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
-                <ListView x:Name="results_list" IsVisible="false"
+        <AbsoluteLayout>
+            <ListView x:Name="results_list" IsVisible="false"
 			        AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="SizeProportional" >
                     <ListView.ItemTemplate>
                         <DataTemplate>

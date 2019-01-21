@@ -15,7 +15,7 @@ namespace WeatherApp
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainTabbedPage(new MainTabbedViewmodel(citiesRepository)));
+            MainPage = new NavigationPage(new MainCarouselPage(new MainCarouselViewmodel(citiesRepository)));
         }
 
         protected override void OnStart()

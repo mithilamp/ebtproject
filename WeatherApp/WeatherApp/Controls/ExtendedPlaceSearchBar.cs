@@ -128,8 +128,8 @@ namespace WeatherApp.Controls
         {
             if (string.IsNullOrEmpty(ApiKey))
             {
-                throw new Exception(
-                    string.Format("You have not assigned a Google API key to PlacesBar"));
+                await Application.Current.MainPage?.DisplayAlert("Error", "You have not assigned a Google API key", "Ok");
+                return null;
             }
 
             try

@@ -12,13 +12,14 @@ namespace WeatherApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AddCityPage : ContentPage
 	{
-        string GooglePlacesApiKey = "AIzaSyCfedRBIYQWmXq2jSB_QDCvGGM62fEoTZE";  // Replace this with your api key
         NamedCity selectedCity { get; set; }
+        bool notSelected { get; set; }
 
         public AddCityPage ()
 		{
+            notSelected = true;
 			InitializeComponent ();
-            SearchBar.ApiKey = GooglePlacesApiKey;
+            SearchBar.ApiKey = Constants.GoogleApiKey;
             SearchBar.Type = PlaceType.Geocode;
             SearchBar.PlacesRetrieved += Search_Bar_PlacesRetrieved;
             SearchBar.TextChanged += Search_Bar_TextChanged;
@@ -33,12 +34,14 @@ namespace WeatherApp.Views
         /// <param name="result">The result.</param>
         void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)
         {
-            results_list.ItemsSource = result.AutoCompletePlaces;
-            spinner.IsRunning = false;
-            spinner.IsVisible = false;
+            if (notSelected)
+            {
+                results_list.ItemsSource = result.AutoCompletePlaces;
 
-            if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0)
-                results_list.IsVisible = true;
+                if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0)
+                    results_list.IsVisible = true;
+            }
+
         }
 
         /// <summary>
@@ -48,17 +51,14 @@ namespace WeatherApp.Views
         /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         void Search_Bar_TextChanged(object sender, TextChangedEventArgs e)
         {
+            notSelected = true;
             if (!string.IsNullOrEmpty(e.NewTextValue))
             {
                 results_list.IsVisible = false;
-                spinner.IsVisible = true;
-                spinner.IsRunning = true;
             }
             else
             {
                 results_list.IsVisible = true;
-                spinner.IsRunning = false;
-                spinner.IsVisible = false;
             }
         }
 
@@ -75,10 +75,16 @@ namespace WeatherApp.Views
             var prediction = (AutoCompletePrediction)e.SelectedItem;
             SearchBar.Text = prediction.Description;
             results_list.SelectedItem = null;
+            notSelected = false;
 
-            this.selectedCity = await Places.GetPlace(prediction.Place_ID, GooglePlacesApiKey);
+            this.selectedCity = await Places.GetPlace(prediction.Place_ID, Constants.GoogleApiKey);
         }
 
+        /// <summary>
+        /// Clickeds the asynchronous.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         async void ClickedAsync(object sender, EventArgs e)
         {
             if (this.selectedCity != null)

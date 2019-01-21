@@ -13,24 +13,24 @@ using Xamarin.Forms.Xaml;
 namespace WeatherApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainTabbedPage : TabbedPage
+    public partial class MainCarouselPage : CarouselPage
     {
         RestServices RestService { get; set; }
         NamedCity CurrentCity { get; set; }
-        public MainTabbedPage (MainTabbedViewmodel viewmodel)
+        public MainCarouselPage (MainCarouselViewmodel viewmodel)
         {
             InitializeComponent();
             this.BindingContext = viewmodel;
             this.Title = "Weather App";
 
-            this.SetBinding(TabbedPage.ItemsSourceProperty, "ViewModelsList", BindingMode.TwoWay);
+            this.SetBinding(CarouselPage.ItemsSourceProperty, "ViewModelsList", BindingMode.TwoWay);
 
             this.ItemTemplate = new DataTemplate(() => { return new CityWeatherPage(); });
         }
 
         private async Task GetCurrentLocation()
         {
-            var viewModel = this.BindingContext as MainTabbedViewmodel;
+            var viewModel = this.BindingContext as MainCarouselViewmodel;
             try
             {
                 //var request = new GeolocationRequest(GeolocationAccuracy.Medium);

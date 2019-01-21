@@ -20,6 +20,9 @@
     <Compile Update="Views\CityWeatherPage.xaml.cs">
       <DependentUpon>CityWeatherPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\MainCarouselPage.xaml.cs">
+      <DependentUpon>MainCarouselPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +38,7 @@
     <EmbeddedResource Update="Views\ForcastPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTabbedPage.xaml">
+    <EmbeddedResource Update="Views\MainCarouselPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
