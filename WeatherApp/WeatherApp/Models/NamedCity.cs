@@ -20,7 +20,7 @@ namespace WeatherApp.Models
         public double Latitude { get; set; }
         public override string ToString()
         {
-            return $"({Id} {Name}, {Longitude}, {Latitude})";
+            return $"({Id}, {Name}, {Longitude}, {Latitude})";
         }
 
     }

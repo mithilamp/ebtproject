@@ -6,8 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using System.IO;
 using WeatherApp.Services;
+using System.IO;
 
 namespace WeatherApp.Droid
 {
