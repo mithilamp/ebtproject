@@ -127,6 +127,7 @@ namespace WeatherApp.ViewModels
         /// <returns></returns>
         private async Task OnListItemSelectedActionAsync(AutoCompletePrediction autoCompletePrediction)
         {
+            NotSelected = false;
             SearchText = autoCompletePrediction.Description;
             this.SelectedCity = await googleMapServices.GetPlace(autoCompletePrediction.Place_ID);
         }
@@ -137,14 +138,17 @@ namespace WeatherApp.ViewModels
         /// <param name="text">The text.</param>
         private void OnTextChangedAction(string text)
         {
-            if (!string.IsNullOrEmpty(text))
+            if (NotSelected)
             {
-                IsListVisible = false;
-            }
-            else
-            {
-                IsListVisible = true;
-                this.SelectedCity = null;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    IsListVisible = false;
+                }
+                else
+                {
+                    IsListVisible = true;
+                    this.SelectedCity = null;
+                }
             }
         }
 
@@ -154,7 +158,15 @@ namespace WeatherApp.ViewModels
         /// <param name="autoCompletePrediction">The automatic complete prediction.</param>
         private void OnPlacesRetrievedAction(AutoCompleteResult autoCompletePrediction)
         {
-            AutoCompletePredictions = autoCompletePrediction.AutoCompletePlaces;
+            if (!NotSelected)
+            {
+                AutoCompletePredictions = null;
+                NotSelected = true;
+            }
+            else
+            {
+                AutoCompletePredictions = autoCompletePrediction.AutoCompletePlaces;
+            }
 
             if (autoCompletePrediction.AutoCompletePlaces != null && autoCompletePrediction.AutoCompletePlaces.Count > 0)
                 IsListVisible = true;

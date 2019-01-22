@@ -11,8 +11,14 @@ namespace WeatherApp.ViewModels
 {
     public class CityWeatherViewModel :BaseViewModel
     {
+        /// <summary>
+        /// Gets or sets the named city.
+        /// </summary>
         public NamedCity NamedCity { get; set; }
 
+        /// <summary>
+        /// The display weather
+        /// </summary>
         public WeatherOnTopViewModel displayWeather;
 
         /// <summary>

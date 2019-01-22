@@ -17,7 +17,9 @@ namespace WeatherApp.Models
         /// <summary>
         /// Gets or sets the auto complete places.
         /// </summary>
-        /// <value>The auto complete places.</value>
+        /// <value>
+        /// The auto complete places.
+        /// </value>
         [JsonProperty("predictions")]
         public List<AutoCompletePrediction> AutoCompletePlaces { get; set; }
     }

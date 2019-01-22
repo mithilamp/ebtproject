@@ -19,6 +19,11 @@ namespace WeatherApp.Services
 
         }
 
+        /// <summary>
+        /// Gets the place.
+        /// </summary>
+        /// <param name="placeID">The place identifier.</param>
+        /// <returns></returns>
         public async Task<NamedCity> GetPlace(string placeID)
         {
             try
@@ -56,6 +61,11 @@ namespace WeatherApp.Services
             }
         }
 
+        /// <summary>
+        /// Gets the places.
+        /// </summary>
+        /// <param name="newTextValue">The new text value.</param>
+        /// <returns></returns>
         public async Task<AutoCompleteResult> GetPlaces(string newTextValue)
         {
             if (string.IsNullOrEmpty(Constants.GoogleApiKey))

@@ -13,9 +13,19 @@ namespace WeatherApp.ViewModels
 {
     public class MainCarouselViewmodel :BaseViewModel
     {
+        /// <summary>
+        /// The cities repository
+        /// </summary>
         private readonly ICitiesRepository citiesRepository;
+        /// <summary>
+        /// Gets or sets the view models list.
+        /// </summary>
         public ObservableCollection<CityWeatherViewModel> ViewModelsList { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainCarouselViewmodel"/> class.
+        /// </summary>
+        /// <param name="citiesRepository">The cities repository.</param>
         public MainCarouselViewmodel(ICitiesRepository citiesRepository)
         {
             this.citiesRepository = citiesRepository;

@@ -10,13 +10,24 @@ namespace WeatherApp.Services
 {
     public class CitiesRepository : ICitiesRepository
     {
+        /// <summary>
+        /// The database context
+        /// </summary>
         private readonly DatabaseContext databaseContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CitiesRepository"/> class.
+        /// </summary>
+        /// <param name="dbPath">The database path.</param>
         public CitiesRepository(string dbPath)
         {
             databaseContext = new DatabaseContext(dbPath);
         }
 
+        /// <summary>
+        /// Gets the cities asynchronous.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<NamedCity>> GetCitiesAsync()
         {
             try
@@ -30,6 +41,11 @@ namespace WeatherApp.Services
             }
         }
 
+        /// <summary>
+        /// Adds the city asynchronous.
+        /// </summary>
+        /// <param name="city">The city.</param>
+        /// <returns></returns>
         public async Task<bool> AddCityAsync(NamedCity city)
         {
             try
@@ -45,6 +61,11 @@ namespace WeatherApp.Services
             }
         }
 
+        /// <summary>
+        /// Gets the city by identifier asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public async Task<NamedCity> GetCityByIdAsync(int id)
         {
             try
@@ -58,6 +79,11 @@ namespace WeatherApp.Services
             }
         }
 
+        /// <summary>
+        /// Removes the city asynchronous.
+        /// </summary>
+        /// <param name="city">The city.</param>
+        /// <returns></returns>
         public async Task<bool> RemoveCityAsync(NamedCity city)
         {
             try
@@ -73,6 +99,11 @@ namespace WeatherApp.Services
             }
         }
 
+        /// <summary>
+        /// Updates the city asynchronous.
+        /// </summary>
+        /// <param name="city">The city.</param>
+        /// <returns></returns>
         public async Task<bool> UpdateCityAsync(NamedCity city)
         {
             try

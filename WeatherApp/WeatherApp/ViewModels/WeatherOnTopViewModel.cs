@@ -27,6 +27,10 @@ namespace WeatherApp.ViewModels
 
         }
 
+        /// <summary>
+        /// Generates the new data.
+        /// </summary>
+        /// <param name="weatherData">The weather data.</param>
         public void GenerateNewData(WeatherData weatherData)
         {
             this.CityName = weatherData.City.Name;
