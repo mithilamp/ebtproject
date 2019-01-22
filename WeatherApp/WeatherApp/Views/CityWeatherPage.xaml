@@ -2,13 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WeatherApp.Views.CityWeatherPage">
-    <!--<ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding CityName}"/>
-            <Label Text="{Binding lon}"/>
-            <Label Text="{Binding lat}"/>
-        </StackLayout>
-    </ContentPage.Content>-->
+
     <StackLayout>
         <ScrollView>
             <StackLayout>
@@ -24,10 +18,47 @@
                     <Label Text="{Binding Pressure, StringFormat='Pressure {0} hPa'}" FontSize="Micro"/>
                 </StackLayout>
 
-                <StackLayout>
-                    <!--<ListView x:Name="Forcast">
-                        
-                    </ListView>-->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5">
+                    <StackLayout x:Name="Day1" BindingContext="{Binding DisplayWeather.ForcastList[0]}" Margin="5">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTapped"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="Today" HorizontalOptions="Center"/>
+                        <Image Source="{Binding Weather[0].Icon, StringFormat='https://openweathermap.org/img/w/{0}.png'}" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Main.Temp,StringFormat='{0:F0}&#186;'}" HorizontalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout x:Name="Day2" BindingContext="{Binding DisplayWeather.ForcastList[1]}" Margin="5">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTapped" />
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{Binding DtTxt, StringFormat='{0:ddd}'}" HorizontalOptions="Center"/>
+                        <Image Source="{Binding Weather[0].Icon, StringFormat='https://openweathermap.org/img/w/{0}.png'}" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Main.Temp,StringFormat='{0:F0}&#186;'}" HorizontalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout x:Name="Day3" BindingContext="{Binding DisplayWeather.ForcastList[2]}" Margin="5">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTapped" />
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{Binding DtTxt, StringFormat='{0:ddd}'}" HorizontalOptions="Center"/>
+                        <Image Source="{Binding Weather[0].Icon, StringFormat='https://openweathermap.org/img/w/{0}.png'}" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Main.Temp,StringFormat='{0:F0}&#186;'}" HorizontalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout x:Name="Day4" BindingContext="{Binding DisplayWeather.ForcastList[3]}" Margin="5">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTapped" />
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{Binding DtTxt, StringFormat='{0:ddd}'}" HorizontalOptions="Center"/>
+                        <Image Source="{Binding Weather[0].Icon, StringFormat='https://openweathermap.org/img/w/{0}.png'}" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Main.Temp,StringFormat='{0:F0}&#186;'}" HorizontalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout x:Name="Day5" BindingContext="{Binding DisplayWeather.ForcastList[4]}" Margin="5">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTapped" />
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="{Binding DtTxt, StringFormat='{0:ddd}'}" HorizontalOptions="Center"/>
+                        <Image Source="{Binding Weather[0].Icon, StringFormat='https://openweathermap.org/img/w/{0}.png'}" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Main.Temp,StringFormat='{0:F0}&#186;'}" HorizontalOptions="Center"/>
+                    </StackLayout>
                 </StackLayout>
 
             </StackLayout>

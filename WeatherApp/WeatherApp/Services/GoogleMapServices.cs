@@ -28,7 +28,7 @@ namespace WeatherApp.Services
         {
             try
             {
-                var requestURI = CreateDetailsRequestUri(placeID, Constants.GoogleApiKey);
+                var requestURI = CreateDetailsRequestUri(placeID);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Get, requestURI);
                 var response = await client.SendAsync(request);
@@ -50,7 +50,6 @@ namespace WeatherApp.Services
                 namedCity.Name = (string)JObject.Parse(result)["result"]["name"];
                 namedCity.Latitude = (double)JObject.Parse(result)["result"]["geometry"]["location"]["lat"];
                 namedCity.Longitude = (double)JObject.Parse(result)["result"]["geometry"]["location"]["lng"];
-                //var namedCity = new NamedCity();
                 return namedCity;
 
             }
@@ -109,9 +108,9 @@ namespace WeatherApp.Services
         /// </summary>
         /// <returns>The predictions URI.</returns>
         /// <param name="newTextValue">New text value.</param>
-        string CreatePredictionsUri(string newTextValue)
+        private string CreatePredictionsUri(string newTextValue)
         {
-            var url = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
+            var url = Constants.GooglePlacesPredictionEndpoint;
             var input = Uri.EscapeUriString(newTextValue);
             var pType = PlaceTypeValue(PlaceType.Geocode);
             var constructedUrl = $"{url}?input={input}&types={pType}&key={Constants.GoogleApiKey}";
@@ -125,10 +124,10 @@ namespace WeatherApp.Services
         /// <param name="place_id">The place identifier.</param>
         /// <param name="apiKey">The API key.</param>
         /// <returns></returns>
-        static string CreateDetailsRequestUri(string place_id, string apiKey)
+        private string CreateDetailsRequestUri(string place_id)
         {
-            var url = "https://maps.googleapis.com/maps/api/place/details/json";
-            return $"{url}?placeid={Uri.EscapeUriString(place_id)}&key={apiKey}";
+            var url = Constants.GooglePlacesDetailsEndpoint;
+            return $"{url}?placeid={Uri.EscapeUriString(place_id)}&key={Constants.GoogleApiKey}";
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace WeatherApp.Services
         /// </summary>
         /// <returns>The type value.</returns>
         /// <param name="type">Type.</param>
-        string PlaceTypeValue(PlaceType type)
+        private string PlaceTypeValue(PlaceType type)
         {
             switch (type)
             {

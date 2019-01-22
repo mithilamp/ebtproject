@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeatherApp.Models;
 using WeatherApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,7 +15,7 @@ namespace WeatherApp.Views
 	{
 		public CityWeatherPage()
 		{
-			InitializeComponent ();
+			InitializeComponent();
             this.SetBinding(ContentPage.TitleProperty, "NamedCity.Name");
         }
 
@@ -26,6 +27,18 @@ namespace WeatherApp.Views
             base.OnAppearing();
             var viewModel = this.BindingContext as CityWeatherViewModel;
             viewModel.SubscribeToUpdates();
+        }
+
+        /// <summary>
+        /// Called when [tapped].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        void OnTapped(object sender, EventArgs e)
+        {
+            var viewModel = this.BindingContext as CityWeatherViewModel;
+            var layout = sender as StackLayout;
+            viewModel.SwitchToTopCmd(layout.BindingContext as List);
         }
     }
 }

@@ -6,7 +6,7 @@ using WeatherApp.Models;
 
 namespace WeatherApp.ViewModels
 {
-    public class WeatherOnTopViewModel :BaseViewModel
+    public class WeatherPropertiesViewModel :BaseViewModel
     {
         private string cityName;
         private string visibility;
@@ -22,7 +22,7 @@ namespace WeatherApp.ViewModels
         /// </summary>
         IList<List> forcastList;
 
-        public WeatherOnTopViewModel()
+        public WeatherPropertiesViewModel()
         {
 
         }
@@ -43,8 +43,23 @@ namespace WeatherApp.ViewModels
             this.Humidity = weatherData.List[0].Main.Humidity;
             this.Pressure = weatherData.List[0].Main.Pressure;
 
-            var timeOfDay = weatherData.List[0].DtTxt.TimeOfDay; //last weather update
+            var timeOfDay = weatherData.List[0].DtTxt.TimeOfDay; //latest weather update
             this.ForcastList = weatherData.List.Where(x => x.DtTxt.TimeOfDay == timeOfDay).ToList();
+        }
+
+        /// <summary>
+        /// Populates the header data.
+        /// </summary>
+        /// <param name="forcast">The forcast.</param>
+        public void PopulateHeaderData(List forcast)
+        {
+            this.Visibility = forcast.Weather[0].Visibility;
+            this.Icon = forcast.Weather[0].Icon;
+            this.Temparature = forcast.Main.Temp;
+            this.DtTxt = forcast.DtTxt;
+            this.Speed = forcast.Wind.Speed;
+            this.Humidity = forcast.Main.Humidity;
+            this.Pressure = forcast.Main.Pressure;
         }
 
         /// <summary>
@@ -58,7 +73,7 @@ namespace WeatherApp.ViewModels
                 if (forcastList != value)
                 {
                     forcastList = value;
-                    forcastList.RemoveAt(0); //Exempt today
+                    //forcastList.RemoveAt(0); //Exempt today
                     OnPropertyChanged("ForcastList");
                 }
             }

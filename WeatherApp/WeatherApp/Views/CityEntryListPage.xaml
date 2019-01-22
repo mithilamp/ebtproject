@@ -9,15 +9,8 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout x:Name="Item" Orientation="Horizontal">
-                            <!-- Element Label -->
                             <Label Text="{Binding Name}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
                             <Button Text="Remove" Command="{Binding Source={x:Reference CityEntryPage}, Path=BindingContext.RemoveCmd}" CommandParameter="{Binding Source={x:Reference Item},Path=BindingContext}"/>
-                            <!-- Assessment Menu Icon -->
-                            <!--<Label Text="Clickable Label" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OnClickableLabel}" CommandParameter="{Binding .}" />
-                                </Label.GestureRecognizers>
-                            </Label>-->
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

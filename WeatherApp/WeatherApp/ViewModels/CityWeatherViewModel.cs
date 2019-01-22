@@ -19,12 +19,12 @@ namespace WeatherApp.ViewModels
         /// <summary>
         /// The display weather
         /// </summary>
-        public WeatherOnTopViewModel displayWeather;
+        private WeatherPropertiesViewModel displayWeather;
 
         /// <summary>
         /// The rest service
         /// </summary>
-        public IRestServices restService;
+        private IRestServices restService;
 
         /// <summary>
         /// Gets the initialize.
@@ -32,9 +32,19 @@ namespace WeatherApp.ViewModels
         public Task Init { get; private set; }
 
         /// <summary>
+        /// Switches to top command.
+        /// </summary>
+        /// <param name="forcast">The forcast.</param>
+        public void SwitchToTopCmd(List forcast)
+        {
+            DisplayWeather.PopulateHeaderData(forcast);
+        }
+
+
+        /// <summary>
         /// Gets or sets the display weather.
         /// </summary>
-        public WeatherOnTopViewModel DisplayWeather
+        public WeatherPropertiesViewModel DisplayWeather
         {
             get { return displayWeather; }
             set
@@ -55,7 +65,7 @@ namespace WeatherApp.ViewModels
         public CityWeatherViewModel(NamedCity namedCity)
         {
             this.NamedCity = namedCity;
-            this.DisplayWeather = new WeatherOnTopViewModel();
+            this.DisplayWeather = new WeatherPropertiesViewModel();
             restService = new RestServices();
             Init = FetchDataAsync();
         }
