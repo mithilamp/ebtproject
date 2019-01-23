@@ -19,6 +19,49 @@ namespace WeatherApp.Services
 
         }
 
+        public async Task<NamedCity> GetReverseGeocodingPlace(double lat,double lon)
+        {
+            try
+            {
+                var requestURI = CreateReverseGeocodeUri(lat,lon);
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Get, requestURI);
+                var response = await client.SendAsync(request);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("PlacesBar HTTP request denied.");
+                    return null;
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (result == "ERROR")
+                {
+                    Debug.WriteLine("PlacesSearchBar Google Places API returned ERROR");
+                    return null;
+                }
+
+                var namedCity = new NamedCity();
+                namedCity.Name = (string)JObject.Parse(result)["results"][0]["address_components"][3]["short_name"];
+                namedCity.Latitude = lat;
+                namedCity.Longitude = lon;
+                return namedCity;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("PlacesBar HTTP issue: {0} {1}", ex.Message, ex);
+                return null;
+            }
+        }
+
+        private string CreateReverseGeocodeUri(double lat, double lon)
+        {
+            var url = Constants.GoogleReverseGeocodingEndPoint;
+            return $"{url}?latlng={lat},{lon}&location_type=ROOFTOP&result_type=street_address&key={Constants.GoogleApiKey}";
+        }
+
         /// <summary>
         /// Gets the place.
         /// </summary>

@@ -37,7 +37,7 @@ namespace WeatherApp.ViewModels
                 this.NamedCityList.Remove(namedCity);
                 MessagingCenter.Send<CityEntryListViewModel, NamedCity>(this, "delete", namedCity);
             }
-        }
+    }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CityEntryListViewModel"/> class.

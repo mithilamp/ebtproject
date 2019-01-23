@@ -20,5 +20,13 @@ namespace WeatherApp.Interfaces
         /// <param name="newTextValue">The new text value.</param>
         /// <returns></returns>
         Task<AutoCompleteResult> GetPlaces(string newTextValue);
+
+        /// <summary>
+        /// Gets the reverse geocoding place.
+        /// </summary>
+        /// <param name="lat">The lat.</param>
+        /// <param name="lon">The lon.</param>
+        /// <returns></returns>
+        Task<NamedCity> GetReverseGeocodingPlace(double lat, double lon);
     }
 }

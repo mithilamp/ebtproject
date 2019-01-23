@@ -11,10 +11,23 @@ namespace WeatherApp.ViewModels
 {
     public class CityWeatherViewModel :BaseViewModel
     {
+        private NamedCity namedCity;
+
         /// <summary>
         /// Gets or sets the named city.
         /// </summary>
-        public NamedCity NamedCity { get; set; }
+        public NamedCity NamedCity
+        {
+            get { return namedCity; }
+            set
+            {
+                if (namedCity != value)
+                {
+                    namedCity = value;
+                    OnPropertyChanged("NamedCity");
+                }
+            }
+        }
 
         /// <summary>
         /// The display weather

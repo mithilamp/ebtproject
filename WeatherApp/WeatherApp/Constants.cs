@@ -12,5 +12,6 @@ namespace WeatherApp
         public static string GoogleApiKey = "";
         public static string GooglePlacesPredictionEndpoint = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
         public static string GooglePlacesDetailsEndpoint = "https://maps.googleapis.com/maps/api/place/details/json";
+        public static string GoogleReverseGeocodingEndPoint = "https://maps.googleapis.com/maps/api/geocode/json";
     }
 }

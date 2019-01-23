@@ -7,8 +7,8 @@
         <ScrollView>
             <StackLayout>
 
+                <Label Text="{Binding NamedCity.Name}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"/>
                 <StackLayout BindingContext="{Binding DisplayWeather}" VerticalOptions="Start" HorizontalOptions="Center">
-                    <Label Text="{Binding CityName}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Label Text="{Binding Visibility}" HorizontalOptions="Center"/>
                     <Image Source="{Binding Icon, StringFormat='https://openweathermap.org/img/w/{0}.png'}" Scale="3"/>
                     <Label Text="{Binding Temparature, StringFormat='{0:F0}&#186;'}" FontSize="Large" HorizontalOptions="Center"/>

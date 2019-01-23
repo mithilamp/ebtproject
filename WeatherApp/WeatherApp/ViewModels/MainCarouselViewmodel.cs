@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherApp.Interfaces;
@@ -17,6 +18,12 @@ namespace WeatherApp.ViewModels
         /// The cities repository
         /// </summary>
         private readonly ICitiesRepository citiesRepository;
+
+        /// <summary>
+        /// The google map services
+        /// </summary>
+        private IGoogleMapServices googleMapServices;
+
         /// <summary>
         /// Gets or sets the view models list.
         /// </summary>
@@ -29,11 +36,7 @@ namespace WeatherApp.ViewModels
         public MainCarouselViewmodel(ICitiesRepository citiesRepository)
         {
             this.citiesRepository = citiesRepository;
-            //var list = new List<CityWeatherViewModel>
-            //{
-            //   new CityWeatherViewModel(new NamedCity(79.861243,6.9270786,"Colombo"), RestService),
-            //   new CityWeatherViewModel(new NamedCity(6.960278,50.937531,"Cologne"), RestService)
-            //};
+            googleMapServices = new GoogleMapServices();
             ViewModelsList = new ObservableCollection<CityWeatherViewModel>(GetPersistedData());
 
             MessagingCenter.Subscribe<CityEntryListViewModel, NamedCity>(this, "delete", async (sender, obj) =>
@@ -63,28 +66,38 @@ namespace WeatherApp.ViewModels
         }
 
         /// <summary>
-        /// Updates the device location.
+        /// Updates the device current location.
         /// </summary>
-        /// <param name="namedCity">The named city.</param>
+        /// <param name="latitude">The latitude.</param>
+        /// <param name="Longitude">The longitude.</param>
+        /// <returns></returns>
         public async Task UpdateDeviceLocation(NamedCity namedCity)
         {
-            if(ViewModelsList.Count != 0)
+            //var namedCity = await googleMapServices.GetReverseGeocodingPlace(latitude, Longitude);
+            if (ViewModelsList.Count != 0)
             {
-                foreach (CityWeatherViewModel item in ViewModelsList)
-                {
-                    if (item.NamedCity.Name.Equals(namedCity.Name))
-                    {
-                        item.NamedCity.Latitude = namedCity.Latitude;
-                        item.NamedCity.Longitude = namedCity.Longitude;
-                        await citiesRepository.UpdateCityAsync(item.NamedCity);
-                    }
-                }
+                ViewModelsList[0].NamedCity = namedCity;
+                await UpdateRepo(namedCity);           
             }
             else
             {
                 ViewModelsList.Add(new CityWeatherViewModel(namedCity));
                 await citiesRepository.AddCityAsync(namedCity);
             }
+        }
+
+        /// <summary>
+        /// Updates the repository
+        /// </summary>
+        /// <param name="namedCity">The named city.</param>
+        /// <returns></returns>
+        private async Task UpdateRepo(NamedCity namedCity)
+        {
+            var currentCity = citiesRepository.GetCitiesAsync().Result;
+            currentCity.FirstOrDefault().Name = namedCity.Name;
+            currentCity.FirstOrDefault().Latitude = namedCity.Latitude;
+            currentCity.FirstOrDefault().Longitude = namedCity.Longitude;
+            await citiesRepository.UpdateCityAsync(currentCity.FirstOrDefault());
         }
 
         /// <summary>
