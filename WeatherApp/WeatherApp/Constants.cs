@@ -9,7 +9,7 @@ namespace WeatherApp
         public static string OpenWeatherMapEndpoint = "https://api.openweathermap.org/data/2.5/forecast";
         public static string OpenWeatherMapAPIKey = "01b14eddded68c3d739c012290769c48";
 
-        public static string GoogleApiKey = "";
+        public static string GoogleApiKey = "Google Maps API KEY HERE";
         public static string GooglePlacesPredictionEndpoint = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
         public static string GooglePlacesDetailsEndpoint = "https://maps.googleapis.com/maps/api/place/details/json";
         public static string GoogleReverseGeocodingEndPoint = "https://maps.googleapis.com/maps/api/geocode/json";
